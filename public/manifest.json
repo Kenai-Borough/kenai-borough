@@ -1,0 +1,17 @@
+{
+  "name": "Kenai Borough Community Hub",
+  "short_name": "Kenai Borough",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1f12",
+  "theme_color": "#1a472a",
+  "description": "Community hub for Kenai Peninsula businesses, events, activities, and trip planning.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
