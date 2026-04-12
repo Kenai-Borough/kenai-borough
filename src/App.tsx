@@ -23,6 +23,7 @@ import { NetworkAdvertising } from './pages/network-admin/NetworkAdvertising'
 import { NetworkAnalytics } from './pages/network-admin/NetworkAnalytics'
 import { NetworkListings } from './pages/network-admin/NetworkListings'
 import { NetworkModeration } from './pages/network-admin/NetworkModeration'
+import { NetworkEscrow } from './pages/network-admin/NetworkEscrow'
 import { NetworkSettings } from './pages/network-admin/NetworkSettings'
 import { NetworkUsers } from './pages/network-admin/NetworkUsers'
 import { Advertising } from './pages/dashboard/Advertising'
@@ -51,6 +52,7 @@ function App() {
                 <Route path="users" element={<NetworkUsers />} />
                 <Route path="listings" element={<NetworkListings />} />
                 <Route path="analytics" element={<NetworkAnalytics />} />
+                <Route path="escrow" element={<NetworkEscrow />} />
                 <Route path="moderation" element={<NetworkModeration />} />
                 <Route path="advertising" element={<NetworkAdvertising />} />
                 <Route path="settings" element={<NetworkSettings />} />

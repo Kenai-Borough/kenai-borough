@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowLeft, BellRing, ChevronRight, LayoutDashboard, LineChart, Megaphone, Menu, Settings2, ShieldAlert, TableProperties, Users, X } from 'lucide-react'
+import { ArrowLeft, BellRing, ChevronRight, LayoutDashboard, LineChart, Megaphone, Menu, Settings2, Shield, ShieldAlert, TableProperties, Users, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
@@ -9,6 +9,7 @@ const navigation = [
   { to: '/network-admin/users', label: 'Users', icon: Users },
   { to: '/network-admin/listings', label: 'Listings', icon: TableProperties },
   { to: '/network-admin/analytics', label: 'Analytics', icon: LineChart },
+  { to: '/network-admin/escrow', label: 'Escrow', icon: Shield },
   { to: '/network-admin/moderation', label: 'Moderation', icon: ShieldAlert },
   { to: '/network-admin/advertising', label: 'Advertising', icon: Megaphone },
   { to: '/network-admin/settings', label: 'Settings', icon: Settings2 },
