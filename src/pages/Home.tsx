@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { businesses, featuredBusinesses } from '../data/businesses'
 import { events } from '../data/events'
+import { CrossTrafficAds } from '../components/CrossTrafficAds'
 
 const seasonalHighlights = [
   { season: 'Summer', title: 'Salmon fishing and glacier days', summary: 'Peak river runs, long daylight hours, harbor festivals, and full-guided touring energy across the peninsula.' },
@@ -237,6 +238,7 @@ export function Home() {
           </div>
         </div>
       </section>
-    </>
+          <CrossTrafficAds />
+</>
   )
 }

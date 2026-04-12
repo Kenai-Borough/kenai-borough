@@ -1,17 +1,18 @@
+import { KenaiNetworkBanner } from '../../KenaiNetworkBanner'
 const sisterSites = [
-  { name: 'Alaska Guide Search', href: 'https://alaskaguidesearch.com' },
-  { name: 'Alaska Listings', href: 'https://alaskalistings.com' },
-  { name: 'Alaska Metals Exchange', href: 'https://alaskametalsexchange.com' },
-  { name: 'Juneau Air Work', href: 'https://juneauairwork.com' },
-  { name: 'Kenai Auto Sales', href: 'https://kenaiautosales.com' },
+  { name: 'Kenai Borough Realty', href: 'https://kenaiboroughrealty.com' },
   { name: 'Kenai Land Sales', href: 'https://kenailandsales.com' },
-  { name: 'Kenai Listings', href: 'https://kenailistings.com' },
   { name: 'Kenai Peninsula Rentals', href: 'https://kenaipeninsularentals.com' },
+  { name: 'Kenai Home Sales', href: 'https://kenaihomesales.com' },
+  { name: 'Kenai Auto Sales', href: 'https://kenaiautosales.com' },
+  { name: 'Kenai Listings', href: 'https://kenailistings.com' },
+  { name: 'Kenai News', href: 'https://kenainews.com' },
 ]
 
 export function Footer() {
   return (
     <footer className="border-t border-white/60 bg-slate-950 text-white dark:border-white/10">
+        <KenaiNetworkBanner />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr,0.8fr] lg:px-8">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-alaska-aurora">Kenai network</p>
