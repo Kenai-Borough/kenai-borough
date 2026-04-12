@@ -20,7 +20,8 @@ export function KenaiSignIn() {
     setLoading(true)
     try {
       await auth.signIn(email, password)
-      navigate(redirect)
+      const fallback = email.toLowerCase().includes('admin') ? '/network-admin' : '/account'
+      navigate(redirect || fallback)
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to sign in right now.')
     } finally {

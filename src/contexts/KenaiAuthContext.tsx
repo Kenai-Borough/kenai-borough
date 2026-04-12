@@ -1,5 +1,3 @@
-
-  /* eslint-disable react-refresh/only-export-components */
   import {
     createContext,
     useCallback,
@@ -9,7 +7,7 @@
     useState,
     type ReactNode,
   } from 'react'
-  import type { Session, User } from '@supabase/supabase-js'
+  import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
   import { supabase } from '../lib/supabase'
 
   export const SITE_NAME = 'borough'
@@ -49,6 +47,40 @@
     bio: string | null
     is_verified: boolean | null
     site_roles: Record<string, string> | null
+  }
+
+  interface KenaiProfilePayload {
+    id: string
+    email: string
+    full_name: string
+    phone: string | null
+    avatar_url: string | null
+    city: string | null
+    bio: string | null
+    is_verified: boolean
+    site_roles: Record<string, string>
+    last_active_site: string
+    updated_at: string
+  }
+
+  interface KenaiProfileTable {
+    select: (columns: string) => {
+      eq: (column: string, value: string) => {
+        maybeSingle: () => Promise<{ data: KenaiProfileRow | null; error: Error | null }>
+      }
+    }
+    upsert: (payload: KenaiProfilePayload) => {
+      select: (columns: string) => {
+        single: () => Promise<{ data: KenaiProfileRow; error: Error | null }>
+      }
+    }
+    update: (payload: Omit<KenaiProfilePayload, 'id' | 'email'>) => {
+      eq: (column: string, value: string) => {
+        select: (columns: string) => {
+          single: () => Promise<{ data: KenaiProfileRow; error: Error | null }>
+        }
+      }
+    }
   }
 
   interface KenaiAuthContextValue {
@@ -139,6 +171,12 @@
     return DEFAULT_ROLE
   }
 
+  function demoRoleFromEmail(email: string) {
+    if (email.toLowerCase().includes('admin')) return 'admin'
+    if (email.toLowerCase().includes('owner') || email.toLowerCase().includes('business')) return 'business_owner'
+    return DEFAULT_ROLE
+  }
+
   export function KenaiAuthProvider(props: { children: ReactNode }) {
     const [session, setSession] = useState<Session | null>(null)
     const [user, setUser] = useState<KenaiUser | null>(readDemoUser())
@@ -147,7 +185,7 @@
     const syncProfile = useCallback(async function (authUser: User, requestedRole?: string) {
       if (!supabase) return null
       const desiredRole = roleFromUser(authUser, requestedRole)
-      const profileTable: any = (supabase as any).from('kenai_profiles')
+      const profileTable = supabase.from('kenai_profiles' as never) as unknown as KenaiProfileTable
       const existingResult = await profileTable
         .select('id, email, full_name, phone, avatar_url, city, bio, is_verified, site_roles')
         .eq('id', authUser.id)
@@ -156,7 +194,7 @@
       const currentRoles = toRoleMap(existing ? existing.site_roles : {})
       if (!currentRoles[SITE_NAME]) currentRoles[SITE_NAME] = desiredRole
       const metadata = (authUser.user_metadata || {}) as Record<string, unknown>
-      const payload = {
+      const payload: KenaiProfilePayload = {
         id: authUser.id,
         email: authUser.email || (existing ? existing.email : '') || '',
         full_name: (existing && existing.full_name) || (typeof metadata.full_name === 'string' ? metadata.full_name : null) || (authUser.email ? authUser.email.split('@')[0] : 'Kenai Member'),
@@ -213,7 +251,7 @@
           active = false
         }
       }
-      const subscription = supabase.auth.onAuthStateChange(function (_event: any, nextSession: any) {
+      const subscription = supabase.auth.onAuthStateChange(function (_event: AuthChangeEvent, nextSession: Session | null) {
         setSession(nextSession)
         if (nextSession && nextSession.user) {
           void syncProfile(nextSession.user)
@@ -230,13 +268,14 @@
 
     const signIn = useCallback(async function (email: string, password: string) {
       if (!supabase) {
+        const demoRole = demoRoleFromEmail(email)
         const nextUser = {
           id: email,
           email: email,
           fullName: email.split('@')[0].replace(/[-_.]/g, ' '),
-          siteRoles: Object.assign({}, { [SITE_NAME]: DEFAULT_ROLE }),
-          currentSiteRole: DEFAULT_ROLE,
-          isAdmin: false,
+          siteRoles: Object.assign({}, { [SITE_NAME]: demoRole }),
+          currentSiteRole: demoRole,
+          isAdmin: demoRole === 'admin',
           isVerified: true,
         } as KenaiUser
         saveDemoUser(nextUser)
@@ -303,7 +342,7 @@
         setUser(nextUser)
         return
       }
-      const profileTable: any = (supabase as any).from('kenai_profiles')
+      const profileTable = supabase.from('kenai_profiles' as never) as unknown as KenaiProfileTable
       const result = await profileTable.update({
           full_name: nextUser.fullName,
           phone: nextUser.phone || null,

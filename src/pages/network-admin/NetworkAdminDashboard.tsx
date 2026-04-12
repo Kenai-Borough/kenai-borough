@@ -133,7 +133,7 @@ export function NetworkAdminDashboard() {
                   </div>
                   <span className="text-xs text-slate-500">{formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}</span>
                 </div>
-                <p className="mt-2 text-xs uppercase tracking-[0.24em] text-slate-500">{item.action.replaceAll('_', ' ')}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.24em] text-slate-500">{item.action.replace(/_/g, ' ')}</p>
               </div>
             ))}
           </div>

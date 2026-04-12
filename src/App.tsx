@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AdminRoute } from './components/auth/AdminRoute'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { Layout } from './components/layout/Layout'
+import { NetworkAdminLayout } from './components/network-admin/NetworkAdminLayout'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeContextProvider } from './contexts/ThemeContext'
@@ -17,6 +18,13 @@ import { AdminDashboard } from './pages/admin/AdminDashboard'
 import { KenaiAccount } from './pages/auth/KenaiAccount'
 import { KenaiSignIn } from './pages/auth/KenaiSignIn'
 import { KenaiSignUp } from './pages/auth/KenaiSignUp'
+import { NetworkAdminDashboard } from './pages/network-admin/NetworkAdminDashboard'
+import { NetworkAdvertising } from './pages/network-admin/NetworkAdvertising'
+import { NetworkAnalytics } from './pages/network-admin/NetworkAnalytics'
+import { NetworkListings } from './pages/network-admin/NetworkListings'
+import { NetworkModeration } from './pages/network-admin/NetworkModeration'
+import { NetworkSettings } from './pages/network-admin/NetworkSettings'
+import { NetworkUsers } from './pages/network-admin/NetworkUsers'
 import { Advertising } from './pages/dashboard/Advertising'
 import { Analytics } from './pages/dashboard/Analytics'
 import { BusinessDashboard } from './pages/dashboard/BusinessDashboard'
@@ -31,6 +39,22 @@ function App() {
         <ErrorBoundary>
           <BrowserRouter basename={import.meta.env.BASE_URL}>
             <Routes>
+              <Route
+                path="/network-admin"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <NetworkAdminLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<NetworkAdminDashboard />} />
+                <Route path="users" element={<NetworkUsers />} />
+                <Route path="listings" element={<NetworkListings />} />
+                <Route path="analytics" element={<NetworkAnalytics />} />
+                <Route path="moderation" element={<NetworkModeration />} />
+                <Route path="advertising" element={<NetworkAdvertising />} />
+                <Route path="settings" element={<NetworkSettings />} />
+              </Route>
               <Route element={<Layout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/directory" element={<Directory />} />

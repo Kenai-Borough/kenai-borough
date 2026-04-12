@@ -46,7 +46,7 @@ export function Header() {
           {user ? <KenaiNetworkBadge /> : null}
           {user ? (
             <>
-              <Link to={user.role === 'admin' ? '/admin' : '/account'} className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/10">{user.role === 'admin' ? 'Admin' : 'Account'}</Link>
+              <Link to={user.role === 'admin' ? '/network-admin' : '/account'} className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/10">{user.role === 'admin' ? 'Network Admin' : 'Account'}</Link>
               <button onClick={function () { void signOut() }} className="rounded-full bg-alaska-forest px-4 py-2 text-sm font-semibold text-white">Sign out</button>
             </>
           ) : (
@@ -74,7 +74,7 @@ export function Header() {
             {user ? <KenaiNetworkBadge /> : null}
             {user ? (
               <>
-                <Link to={user.role === 'admin' ? '/admin' : '/account'} onClick={function () { setOpen(false) }} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-white/10">Account</Link>
+                 <Link to={user.role === 'admin' ? '/network-admin' : '/account'} onClick={function () { setOpen(false) }} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-white/10">{user.role === 'admin' ? 'Network Admin' : 'Account'}</Link>
                 <button onClick={function () { void signOut() }} className="rounded-full bg-alaska-forest px-4 py-2 text-sm font-semibold text-white">Sign out</button>
               </>
             ) : (

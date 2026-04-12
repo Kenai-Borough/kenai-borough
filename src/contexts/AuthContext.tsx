@@ -1,5 +1,3 @@
-
-/* eslint-disable react-refresh/only-export-components */
 import { useMemo, type ReactNode } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import type { Role, UserProfile } from '../types'
@@ -28,7 +26,7 @@ export function useAuth(): AuthContextValue {
             id: auth.user.id,
             email: auth.user.email,
             fullName: auth.user.fullName,
-            role: auth.user.currentSiteRole as Role,
+            role: (auth.user.isAdmin ? 'admin' : auth.user.currentSiteRole) as Role,
           }
         : null,
       loading: auth.loading,
